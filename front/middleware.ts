@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const accessToken = request.cookies.get("access_token");
+  const accessToken = request.cookies.get("access-token");
   const client = request.cookies.get("client");
   const uid = request.cookies.get("uid");
 
@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   } else {
     const requestPath = request.nextUrl.pathname;
-    if (requestPath === "/login") {
+    if (requestPath === "/login" || requestPath === "/signup") {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", request.url));
