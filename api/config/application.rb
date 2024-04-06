@@ -10,6 +10,11 @@ module App
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    # ActionDispatch::Request::Session::DisabledSessionError: Your application has sessions disabled. To write to the session you must first configure a session store
+    # https://github.com/waiting-for-dev/devise-jwt/issues/235
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use config.session_store, config.session_options
 
     # Configuration for the application, engines, and railties goes here.
     #
