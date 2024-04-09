@@ -6,6 +6,14 @@ import {
   LoginResponse,
 } from "./definitions";
 
+const Paths = {
+  auth: "auth",
+  signIn: "auth/sign_in",
+  signOut: "auth/sign_out",
+} as const;
+
+type Path = (typeof Paths)[keyof typeof Paths];
+
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface CRUD<T, U> {
@@ -16,9 +24,9 @@ interface CRUD<T, U> {
 }
 
 class Fetcher<T, U> implements CRUD<T, U> {
-  private basePath: string;
+  private basePath: Path;
 
-  constructor(basePath: string) {
+  constructor(basePath: Path) {
     this.basePath = basePath;
   }
 
@@ -93,8 +101,10 @@ class Fetcher<T, U> implements CRUD<T, U> {
   }
 }
 
-export const signupFetcher = new Fetcher<SignUpRequest, SignUpResponse>("auth");
-export const loginFetcher = new Fetcher<LoginRequest, LoginResponse>(
-  "auth/sign_in"
+export const signupFetcher = new Fetcher<SignUpRequest, SignUpResponse>(
+  Paths.auth
 );
-export const logoutFetcher = new Fetcher<{}, {}>("auth/sign_out");
+export const loginFetcher = new Fetcher<LoginRequest, LoginResponse>(
+  Paths.signIn
+);
+export const logoutFetcher = new Fetcher<{}, {}>(Paths.signOut);
