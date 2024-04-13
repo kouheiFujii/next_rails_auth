@@ -6,15 +6,18 @@ import {
   LoginResponse,
 } from "./definitions";
 
-const Paths = {
+export const Paths = {
   auth: "auth",
   signIn: "auth/sign_in",
   signOut: "auth/sign_out",
+  me: "users/me",
 } as const;
 
 type Path = (typeof Paths)[keyof typeof Paths];
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+
+const authPaths = [Paths.auth, Paths.signIn, Paths.signOut] as string[];
 
 interface CRUD<T, U> {
   create: (data: T) => Promise<U>;
@@ -71,7 +74,9 @@ class Fetcher<T, U> implements CRUD<T, U> {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      this.updateCookiesFromResponse(response.headers);
+      if (authPaths.includes(this.basePath)) {
+        this.updateCookiesFromResponse(response.headers);
+      }
 
       return response.status !== 204 ? await response.json() : null;
     } catch (error) {
@@ -99,6 +104,10 @@ class Fetcher<T, U> implements CRUD<T, U> {
       if (value) cookies().set(key, value);
     });
   }
+}
+
+export function fetcher<T, U>(basePath: Path): Fetcher<T, U> {
+  return new Fetcher<T, U>(basePath);
 }
 
 export const signupFetcher = new Fetcher<SignUpRequest, SignUpResponse>(
