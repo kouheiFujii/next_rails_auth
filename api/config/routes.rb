@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :todos
   resources :users, only: [] do
-    get 'current', on: :collection
+    get 'me', on: :collection
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
