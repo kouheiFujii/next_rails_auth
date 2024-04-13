@@ -109,11 +109,3 @@ class Fetcher<T, U> implements CRUD<T, U> {
 export function fetcher<T, U>(basePath: Path): Fetcher<T, U> {
   return new Fetcher<T, U>(basePath);
 }
-
-export const signupFetcher = new Fetcher<SignUpRequest, SignUpResponse>(
-  Paths.auth
-);
-export const loginFetcher = new Fetcher<LoginRequest, LoginResponse>(
-  Paths.signIn
-);
-export const logoutFetcher = new Fetcher<{}, {}>(Paths.signOut);

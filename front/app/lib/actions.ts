@@ -1,9 +1,14 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { loginFetcher, logoutFetcher, signupFetcher } from "./fetcher";
+import { Paths, fetcher } from "./fetcher";
 import { cookies } from "next/headers";
-import { log } from "console";
+import {
+  LoginRequest,
+  LoginResponse,
+  SignUpRequest,
+  SignUpResponse,
+} from "./definitions";
 
 const isString = (value: unknown): value is string => {
   return typeof value === "string";
@@ -26,7 +31,7 @@ export type SignUpState = {
   message?: string | null;
 };
 
-export const signup = async (prevState: SignUpState, formData: FormData) => {
+export const signup = async (_: SignUpState, formData: FormData) => {
   const entries = Object.fromEntries(formData);
   const email = isString(entries.email) ? entries.email : "";
   const password = isString(entries.password) ? entries.password : "";
@@ -46,7 +51,7 @@ export const signup = async (prevState: SignUpState, formData: FormData) => {
   }
 
   try {
-    await signupFetcher.create({
+    await fetcher<SignUpRequest, SignUpResponse>(Paths.auth).create({
       email,
       password,
       password_confirmation,
@@ -59,11 +64,10 @@ export const signup = async (prevState: SignUpState, formData: FormData) => {
   redirect("/");
 };
 
-export const login = async (prevState: LoginState, formData: FormData) => {
+export const login = async (_: LoginState, formData: FormData) => {
   const entries = Object.fromEntries(formData);
   const email = isString(entries.email) ? entries.email : "";
   const password = isString(entries.password) ? entries.password : "";
-  console.log("email", email);
   if (email === "" || password === "") {
     return {
       errors: {
@@ -73,7 +77,10 @@ export const login = async (prevState: LoginState, formData: FormData) => {
     };
   }
   try {
-    await loginFetcher.create({ email, password });
+    await fetcher<LoginRequest, LoginResponse>(Paths.signIn).create({
+      email,
+      password,
+    });
   } catch (error) {
     return {
       message: `Failed to login: ${error}`,
@@ -85,7 +92,7 @@ export const login = async (prevState: LoginState, formData: FormData) => {
 export const logout = async () => {
   "use server";
   try {
-    await logoutFetcher.delete();
+    await fetcher<{}, {}>(Paths.signOut).delete();
     ["access-token", "client", "uid"].forEach((key) => {
       cookies().delete(key);
     });
