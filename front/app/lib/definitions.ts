@@ -30,5 +30,3 @@ export type LoginRequest = {
 export type LoginResponse = {
   data: User;
 };
-
-// export type LogoutRequest = {};
