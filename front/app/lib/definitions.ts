@@ -11,6 +11,14 @@ export type User = {
   updated_at: string;
 };
 
+export type Todo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SignUpRequest = {
   email: string;
   password: string;
@@ -29,4 +37,12 @@ export type LoginRequest = {
 
 export type LoginResponse = {
   data: User;
+};
+
+export type TodosResponse = {
+  data: Todo[];
+};
+
+export type TodoRequest = {
+  title: string;
 };
