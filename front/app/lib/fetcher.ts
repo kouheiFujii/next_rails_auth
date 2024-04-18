@@ -1,19 +1,14 @@
 import { cookies } from "next/headers";
-import {
-  SignUpRequest,
-  SignUpResponse,
-  LoginRequest,
-  LoginResponse,
-} from "./definitions";
 
 export const Paths = {
   auth: "auth",
   signIn: "auth/sign_in",
   signOut: "auth/sign_out",
   me: "users/me",
+  todos: "todos",
 } as const;
 
-type Path = (typeof Paths)[keyof typeof Paths];
+type Path = (typeof Paths)[keyof typeof Paths] | `todos/${number}`;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
