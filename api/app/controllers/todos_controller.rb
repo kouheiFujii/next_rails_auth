@@ -4,31 +4,30 @@ class TodosController < ApplicationController
 
   # GET /todos
   def index
-    @todos = Todo.all
-    render json: @todos
+    render json: { todos: current_user.todos }
   end
 
   # GET /todos/:id
   def show
-    render json: @todo
+    render json: { todo: @todo}
   end
 
   # POST /todos
   def create
-    @todo = Todo.new(todo_params)
+    @todo = current_user.todos.new(todo_params)
     if @todo.save
-      render json: @todo, status: :created
+      render json: { todo: @todo }, status: :created
     else
-      render json: @todo.errors, status: :unprocessable_entity
+      render json: { errors:@todo.errors }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /todos/:id
   def update
     if @todo.update(todo_params)
-      render json: @todo
+      render json: { todo: @todo }
     else
-      render json: @todo.errors, status: :unprocessable_entity
+      render json: { errors:@todo.errors }, status: :unprocessable_entity
     end
   end
 
@@ -41,7 +40,7 @@ class TodosController < ApplicationController
   private
 
   def set_todo
-    @todo = Todo.find(params[:id])
+    @todo = current_user.todos.find(params[:id])
   end
 
   def todo_params
