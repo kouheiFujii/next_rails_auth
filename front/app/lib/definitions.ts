@@ -40,7 +40,11 @@ export type LoginResponse = {
 };
 
 export type TodosResponse = {
-  data: Todo[];
+  todos: Todo[];
+};
+
+export type TodoResponse = {
+  todo: Todo;
 };
 
 export type TodoRequest = {

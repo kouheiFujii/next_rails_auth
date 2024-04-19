@@ -1,7 +1,7 @@
 import { getTodos } from "@/app/lib/api";
 
 export const TodosTable = async () => {
-  const { data: todos } = await getTodos();
+  const { todos } = await getTodos();
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
@@ -29,7 +29,7 @@ export const TodosTable = async () => {
       <tbody className="bg-white divide-y divide-gray-200">
         {todos && todos.length > 0 ? (
           todos.map((todo) => (
-            <tr key={todo.id}>
+            <tr key={todo.id} className="text-center">
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {todo.id}
               </td>
