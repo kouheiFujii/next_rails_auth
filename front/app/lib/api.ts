@@ -10,21 +10,12 @@ export const getTodos = async () => {
   return await fetcher<{}, TodosResponse>(Paths.todos).read();
 };
 
+export const getTodoById = async (id: string) => {
+  return await fetcher<{}, TodoResponse>(`${Paths.todos}/${id}`).read();
+};
+
 export const createTodo = async (title: string) => {
   return await fetcher<{ title: string }, TodoResponse>(Paths.todos).create({
     title,
   });
 };
-
-// export const updateTodo = async (
-//   id: number,
-//   title: string,
-//   completed: boolean
-// ) => {
-//   return await fetcher<{ title: string; completed: boolean }, TodosResponse>(
-//     `${Paths.todos}/${id}`
-//   ).update({
-//     title,
-//     completed,
-//   });
-// };

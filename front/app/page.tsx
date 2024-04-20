@@ -1,6 +1,6 @@
 import { LogoutButton } from "./ui/buttom/logout";
 import { Header } from "./ui/header/header";
-import { TodosTable } from "./ui/table/todos";
+import { TodosTable } from "./ui/todos/table";
 import Link from "next/link";
 
 export default function Home() {

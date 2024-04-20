@@ -8,7 +8,7 @@ export const Paths = {
   todos: "todos",
 } as const;
 
-type Path = (typeof Paths)[keyof typeof Paths] | `todos/${number}`;
+type Path = (typeof Paths)[keyof typeof Paths] | `todos/${string}`;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
