@@ -1,4 +1,5 @@
 import { getTodos } from "@/app/lib/api";
+import { UpdateTodo } from "./buttons";
 
 export const TodosTable = async () => {
   const { todos } = await getTodos();
@@ -24,6 +25,12 @@ export const TodosTable = async () => {
           >
             Completed
           </th>
+          <th
+            scope="col"
+            className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Update
+          </th>
         </tr>
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
@@ -38,13 +45,19 @@ export const TodosTable = async () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {todo.completed ? "Yes" : "No"}
-              </td>
+              </td>{" "}
+              <th
+                scope="col"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                <UpdateTodo id={todo.id} />
+              </th>
             </tr>
           ))
         ) : (
           <tr>
             <td
-              colSpan={3}
+              colSpan={4}
               className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
             >
               No data
