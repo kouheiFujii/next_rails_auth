@@ -1,4 +1,5 @@
 import { getTodoById } from "@/app/lib/api";
+import { EditTodoForm } from "@/app/ui/todos/edit-form";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const id = params.slug;
@@ -9,9 +10,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      edit page todo: {data.todo.title}
-      {/* <h1 className="mb-5 text-3xl font-bold text-gray-700">Add Todo</h1>
-      <TodoAddForm /> */}
+      <EditTodoForm todo={data.todo} />
     </div>
   );
 }

@@ -8,10 +8,15 @@ import {
   LoginResponse,
   SignUpRequest,
   SignUpResponse,
+  TodosResponse,
 } from "./definitions";
 
 const isString = (value: unknown): value is string => {
   return typeof value === "string";
+};
+
+const isBoolean = (value: unknown): value is boolean => {
+  return typeof value === "boolean";
 };
 
 export type LoginState = {
@@ -27,6 +32,13 @@ export type SignUpState = {
     email?: string[];
     password?: string[];
     password_confirmation?: string[];
+  };
+  message?: string | null;
+};
+
+export type TodoState = {
+  errors?: {
+    title?: string[];
   };
   message?: string | null;
 };
@@ -100,4 +112,32 @@ export const logout = async () => {
     console.error("Failed to logout:", error);
   }
   redirect("/login");
+};
+
+export const updateTodo = async (_: TodoState, formData: FormData) => {
+  const entries = Object.fromEntries(formData);
+  const id = isString(entries.id) ? entries.id : "";
+  const title = isString(entries.title) ? entries.title : "";
+  const completed = entries.completed === "on" ? true : false;
+
+  if (title === "") {
+    return {
+      errors: {
+        title: ["can't be blank"],
+      },
+    };
+  }
+  try {
+    await fetcher<{ title: string; completed: boolean }, TodosResponse>(
+      `${Paths.todos}/${id}`
+    ).update({
+      title,
+      completed,
+    });
+  } catch (error) {
+    return {
+      message: `Failed to updateTodo: ${error}`,
+    };
+  }
+  redirect("/");
 };
