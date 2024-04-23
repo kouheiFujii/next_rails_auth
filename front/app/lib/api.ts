@@ -3,19 +3,46 @@ import { Paths, fetcher } from "./fetcher";
 import { TodoResponse, TodosResponse, User } from "./definitions";
 
 export const getMe = async () => {
-  return await fetcher<{}, User>(Paths.me).read();
+  try {
+    const data = await fetcher<{}, User>(Paths.me).read();
+    return data;
+  } catch (error) {
+    console.error("Failed to getMe:", error);
+    throw error;
+  }
 };
 
 export const getTodos = async () => {
-  return await fetcher<{}, TodosResponse>(Paths.todos).read();
+  try {
+    const data = await fetcher<{}, TodosResponse>(Paths.todos).read();
+    return data.todos;
+  } catch (error) {
+    console.error("Failed to getTodos:", error);
+    throw error;
+  }
 };
 
 export const getTodoById = async (id: string) => {
-  return await fetcher<{}, TodoResponse>(`${Paths.todos}/${id}`).read();
+  try {
+    const data = await fetcher<{}, TodoResponse>(`${Paths.todos}/${id}`).read();
+    return data.todo;
+  } catch (error) {
+    console.error("Failed to getTodoById:", error);
+    throw error;
+  }
 };
 
+// ホントは actions に書くべき
 export const createTodo = async (title: string) => {
-  return await fetcher<{ title: string }, TodoResponse>(Paths.todos).create({
-    title,
-  });
+  try {
+    const data = await fetcher<{ title: string }, TodoResponse>(
+      Paths.todos
+    ).create({
+      title,
+    });
+    return data.todo;
+  } catch (error) {
+    console.error("Failed to createTodo:", error);
+    throw error;
+  }
 };
