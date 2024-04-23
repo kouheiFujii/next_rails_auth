@@ -66,7 +66,14 @@ class Fetcher<T, U> implements CRUD<T, U> {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        switch (response.status) {
+          // フロントに描画したい場合はここでskipする
+          // errorを throw してフロントまで持っていかないとすべてerror.tsxで処理される
+          case 404:
+            break;
+          default:
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
       }
 
       if (authPaths.includes(this.basePath)) {
