@@ -2,7 +2,7 @@ import { getTodos } from "@/app/lib/api";
 import { UpdateTodo } from "./buttons";
 
 export const TodosTable = async () => {
-  const { todos } = await getTodos();
+  const todos = await getTodos();
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
