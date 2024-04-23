@@ -110,6 +110,7 @@ export const logout = async () => {
     });
   } catch (error) {
     console.error("Failed to logout:", error);
+    throw error;
   }
   redirect("/login");
 };
@@ -138,6 +139,16 @@ export const updateTodo = async (_: TodoState, formData: FormData) => {
     return {
       message: `Failed to updateTodo: ${error}`,
     };
+  }
+  redirect("/");
+};
+
+export const deleteTodo = async ({ id }: { id: number }) => {
+  try {
+    await fetcher<{}, {}>(`${Paths.todos}/${id}`).delete();
+  } catch (error) {
+    console.error("Failed to deleteTodo:", error);
+    throw error;
   }
   redirect("/");
 };

@@ -1,5 +1,6 @@
 import { getTodos } from "@/app/lib/api";
 import { UpdateTodo } from "./buttons";
+import { DeleteTodo } from "./delete";
 
 export const TodosTable = async () => {
   const todos = await getTodos();
@@ -31,6 +32,12 @@ export const TodosTable = async () => {
           >
             Update
           </th>
+          <th
+            scope="col"
+            className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Delete
+          </th>
         </tr>
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
@@ -45,12 +52,18 @@ export const TodosTable = async () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {todo.completed ? "Yes" : "No"}
-              </td>{" "}
+              </td>
               <th
                 scope="col"
                 className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 <UpdateTodo id={todo.id} />
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                <DeleteTodo id={todo.id} />
               </th>
             </tr>
           ))
