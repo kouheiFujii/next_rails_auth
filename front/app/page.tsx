@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import Loading from "./loading";
 import { LogoutButton } from "./ui/buttom/logout";
 import { Header } from "./ui/header/header";
 import { TodosTable } from "./ui/todos/table";
@@ -12,7 +14,9 @@ export default function Home() {
         <Link href="/todos/add" className="px-3 py-2 bg-slate-400 ">
           Add Todo
         </Link>
-        <TodosTable></TodosTable>
+        <Suspense fallback={<Loading />}>
+          <TodosTable />
+        </Suspense>
         <div>
           <LogoutButton />
         </div>

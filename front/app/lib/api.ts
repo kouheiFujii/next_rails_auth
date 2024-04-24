@@ -1,6 +1,7 @@
 "use server";
 import { Paths, fetcher } from "./fetcher";
 import { TodoResponse, TodosResponse, User } from "./definitions";
+import { wait } from "./helper";
 
 export const getMe = async () => {
   try {
@@ -14,6 +15,8 @@ export const getMe = async () => {
 
 export const getTodos = async () => {
   try {
+    // 動作確認用
+    // await wait(3000);
     const data = await fetcher<{}, TodosResponse>(Paths.todos).read();
     return data.todos;
   } catch (error) {
